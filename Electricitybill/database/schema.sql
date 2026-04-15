@@ -244,15 +244,10 @@ CREATE TABLE activity_logs (
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE audit_trail (
-    audit_id INT AUTO_INCREMENT PRIMARY KEY,
-    table_name VARCHAR(50),
-    action_type VARCHAR(20),
-    changed_by INT,
-    change_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(changed_by) REFERENCES users(user_id)
-);
+
 
 CREATE INDEX idx_customer ON bills(customer_id);
 CREATE INDEX idx_bill ON payments(bill_id);
+
 -- schema update
+--update 1
