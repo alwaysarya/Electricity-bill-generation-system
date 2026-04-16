@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Electricity Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+body {
+  animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>⚡ Electricity Bill Management System</h1>
+</header>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/add_customer">Add Customer</a>
+  <a href="/add_reading">Add Reading</a>
+  <a href="/generate_bill">Generate Bill</a>
+  <a href="/payment">Payment</a>
+  <a href="/reports">Reports</a>
+</nav>
+
+<!-- DASHBOARD CARDS -->
+<section class="dashboard">
+  <div class="card">
+    <h3>Total Customers</h3>
+    <p>{{ total_customers }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Total Revenue</h3>
+    <p>₹{{ total_revenue }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Unpaid Bills</h3>
+    <p>{{ unpaid }}</p>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section>
+  <h2>Search Customer</h2>
+  <form method="get">
+    <input type="text" name="search" placeholder="Enter name">
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<!-- CUSTOMER TABLE -->
+<section>
+  <h2>Customers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Meter</th>
+        <th>Phone</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for customer in customers %}
+      <tr>
+        <td>{{ customer.customer_id }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.meter_number }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>
+          <a href="/delete_customer/{{ customer.customer_id }}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<!-- CHARTS -->
+<section>
+  <h2>Analytics Dashboard</h2>
+
+  <div class="chart-container">
+    <canvas id="revenueChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="statusChart"></canvas>
+  </div>
+</section>
+
+<!-- CHART SCRIPT -->
+<script>
+fetch('/api/dashboard')
+.then(res => res.json())
+.then(data => {
+
+  // Revenue Chart
+  const revenueCtx = document.getElementById('revenueChart');
+  new Chart(revenueCtx, {
+    type: 'line',
+    data: {
+      labels: data.revenue.map(r => r.date),
+      datasets: [{
+        label: 'Revenue',
+        data: data.revenue.map(r => r.total),
+        borderWidth: 2,
+        tension: 0.3
+      }]
+    }
+  });
+
+  // Status Chart
+  const statusCtx = document.getElementById('statusChart');
+  new Chart(statusCtx, {
+    type: 'pie',
+    data: {
+      labels: data.status.map(s => s.status),
+      datasets: [{
+        data: data.status.map(s => s.count)
+      }]
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Generate Bill</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <h1>Generate Bill</h1>
+</header>
+
+<form method="post">
+
+  <label>Customer
+    <select name="customer_id" required>
+      {% for customer in customers %}
+        <option value="{{ customer.customer_id }}">{{ customer.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Start Date
+    <input type="date" name="start_date" required>
+  </label>
+
+  <label>End Date
+    <input type="date" name="end_date" required>
+  </label>
+
+  <label>Units Consumed
+    <input type="number" name="units_consumed" min="0" required>
+  </label>
+
+  <button type="submit">Generate Bill</button>
+</form>
+
+<a href="/">Back</a>
+
+</body>
+</html>

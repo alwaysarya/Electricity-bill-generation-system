@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Reports</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <header><h1>Reports</h1></header>
+
+    <!-- Unpaid Bills Section -->
+    <section>
+      <h2>Unpaid Bills</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Amount Due</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if unpaid %}
+            {% for row in unpaid %}
+            <tr>
+              <td>{{ row.bill_id }}</td>
+              <td>{{ row.name }}</td>
+              <td>₹{{ row.amount_due }}</td>
+              <td>{{ row.due_date }}</td>
+              <td>Unpaid</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5">No unpaid bills</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Payment History Section -->
+    <section>
+      <h2>Payment History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Payment ID</th>
+            <th>Bill ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if payments %}
+            {% for payment in payments %}
+            <tr>
+              <td>{{ payment.payment_id }}</td>
+              <td>{{ payment.bill_id }}</td>
+              <td>{{ payment.payment_date }}</td>
+              <td>₹{{ payment.amount_paid }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="4">No payments recorded</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+
+    <a href="/">Back</a>
+  </body>
+</html>

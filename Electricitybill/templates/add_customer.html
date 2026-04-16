@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Add Customer</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <header><h1>Add New Customer</h1></header>
+    <form method="post">
+      <label>Name<input name="name" required></label>
+      <label>Address<input name="address" required></label>
+      <label>Phone<input name="phone"></label>
+      <label>Email<input name="email"></label>
+      <label>Meter Number<input name="meter_number" required></label>
+      <label>Connection Date<input type="date" name="connection_date" required></label>
+      <button type="submit">Save Customer</button>
+    </form>
+    <a href="/">Back</a>
+  </body>
+</html>

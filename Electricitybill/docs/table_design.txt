@@ -1,0 +1,35 @@
+Electricity Bill DBMS Table Design
+
+customers
+- customer_id: PRIMARY KEY
+- name
+- address
+- phone
+- email
+- meter_number: UNIQUE
+- connection_date
+
+meter_readings
+- reading_id: PRIMARY KEY
+- customer_id: FOREIGN KEY -> customers(customer_id)
+- reading_date
+- units_consumed
+
+bills
+- bill_id: PRIMARY KEY
+- customer_id: FOREIGN KEY -> customers(customer_id)
+- billing_period_start
+- billing_period_end
+- units_consumed
+- amount_due
+- generated_date
+- due_date
+- status
+
+payments
+- payment_id: PRIMARY KEY
+- bill_id: FOREIGN KEY -> bills(bill_id)
+- payment_date
+- amount_paid
+- payment_method
+- remarks
